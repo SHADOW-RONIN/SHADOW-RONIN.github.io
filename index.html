@@ -1,15 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Shadow | Official</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow — Student • Builder • Learner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">//SHADOW</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
 
-  <h1>Hello, I am Shadow 😎</h1>
-  <p>This is my first free website.</p>
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+        <div class="hero-background" id="heroCanvas"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title glitch" data-text="SHADOW">SHADOW</h1>
+                <p class="hero-subtitle">Student • Builder • Learner</p>
+                <p class="hero-tagline">Crafting logic from chaos. Building the future, one line of code at a time.</p>
+                <a href="#about" class="btn btn-primary">Explore the Mind</a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-indicator" aria-label="Scroll down">⌄</a>
+    </section>
 
-  <script src="script.js"></script>
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="container">
+            <h2 class="section-title"><span class="accent">01.</span> About</h2>
+            <div class="card about-card">
+                <div class="card-content">
+                    <h3 class="card-title">The Focused Mind</h3>
+                    <p class="card-text">
+                        I am <strong>Shadow</strong>, a Class 11–12 student navigating the intersection of logic and creativity. My world revolves around understanding technology's core mechanics, from web architecture to algorithmic thinking.
+                    </p>
+                    <p class="card-text">
+                        I approach learning with a calm, growth-oriented mindset. Every project is a step towards mastery, every problem a puzzle to be solved with precision and intention. I am not just learning to code; I am learning to build systems that matter.
+                    </p>
+                    <div class="about-highlight">
+                        <p><em>"The quality of your focus determines the quality of your reality."</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills section">
+        <div class="container">
+            <h2 class="section-title"><span class="accent">02.</span> Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card" data-skill="95">
+                    <div class="skill-header">
+                        <h3 class="skill-title">HTML</h3>
+                        <span class="skill-percent">0%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-skill="90">
+                    <div class="skill-header">
+                        <h3 class="skill-title">CSS</h3>
+                        <span class="skill-percent">0%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-skill="80">
+                    <div class="skill-header">
+                        <h3 class="skill-title">JavaScript</h3>
+                        <span class="skill-percent">0%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-skill="85">
+                    <div class="skill-header">
+                        <h3 class="skill-title">Git & GitHub</h3>
+                        <span class="skill-percent">0%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-skill="88">
+                    <div class="skill-header">
+                        <h3 class="skill-title">Problem Solving</h3>
+                        <span class="skill-percent">0%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects section">
+        <div class="container">
+            <h2 class="section-title"><span class="accent">03.</span> Projects</h2>
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-card-inner">
+                        <h3 class="project-title">Quantum Dashboard</h3>
+                        <p class="project-desc">A clean, real-time data visualization interface for system metrics, built with vanilla JS and CSS Grid.</p>
+                        <div class="project-tech">HTML / CSS / JS</div>
+                        <button class="btn btn-outline project-btn">View Project</button>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <div class="project-card-inner">
+                        <h3 class="project-title">Neural CLI</h3>
+                        <p class="project-desc">A browser-based terminal simulator that executes and visualizes basic algorithms and data structures.</p>
+                        <div class="project-tech">JavaScript</div>
+                        <button class="btn btn-outline project-btn">View Project</button>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <div class="project-card-inner">
+                        <h3 class="project-title">Cipher Engine</h3>
+                        <p class="project-desc">A web tool for exploring classical encryption methods with real-time encoding/decoding and analysis.</p>
+                        <div class="project-tech">HTML / CSS / JS</div>
+                        <button class="btn btn-outline project-btn">View Project</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="container">
+            <h2 class="section-title"><span class="accent">04.</span> Contact</h2>
+            <div class="card contact-card">
+                <div class="card-content">
+                    <h3 class="card-title">Let's build something meaningful.</h3>
+                    <p class="contact-text">
+                        I'm currently focused on my studies and personal projects, but I'm always open to discussing ideas, technology, and potential collaborations. If you have a concept that requires a focused, systematic approach, let's connect.
+                    </p>
+                    <div class="contact-email">
+                        <code>shadow.dev@example.com</code>
+                    </div>
+                    <p class="contact-note">
+                        <em>This is a portfolio site. The email above is a placeholder.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© Shadow — Built with focus and intention.</p>
+            <p class="footer-subtext">A cinematic digital identity. No frameworks. Pure logic.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
