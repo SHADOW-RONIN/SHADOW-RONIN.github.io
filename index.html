@@ -3,264 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Chat Room</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
+    <title>Private Cloud Chat</title>
     <style>
-        :root {
-            --primary: #8e44ad;
-            --secondary: #2c3e50;
-            --bg: #0f0c29;
-            --chat-bg: #1a1a2e;
-            --accent: #00d2ff;
-            --text: #ffffff;
-        }
+        :root { --p: #6c5ce7; --bg: #0a0a0a; --c: #1a1a1a; --txt: #fff; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
+        body { background: var(--bg); color: var(--txt); height: 100vh; display: flex; justify-content: center; align-items: center; }
+        
+        /* Login */
+        #login { background: var(--c); padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 0 20px #000; width: 300px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; outline: none; }
+        button { width: 100%; padding: 12px; background: var(--p); border: none; color: #fff; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-
-        body {
-            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text);
-        }
-
-        /* লগইন সেকশন */
-        #auth-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            width: 320px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        input[type="password"], input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin: 15px 0;
-            border-radius: 10px;
-            border: none;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            outline: none;
-            border: 1px solid #444;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 100px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        /* চ্যাট সেকশন */
-        #chat-container {
-            display: none;
-            width: 95%;
-            max-width: 600px;
-            height: 90vh;
-            background: var(--chat-bg);
-            flex-direction: column;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
-
-        .header {
-            padding: 20px;
-            background: rgba(0,0,0,0.2);
-            text-align: center;
-            border-bottom: 1px solid #333;
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        #message-area {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-        }
-
-        /* মেসেজ ডিজাইন */
-        .msg {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 15px;
-            line-height: 1.4;
-            position: relative;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .mine { align-self: flex-end; background: var(--primary); border-bottom-right-radius: 2px; }
-        .friend { align-self: flex-start; background: var(--secondary); border-bottom-left-radius: 2px; }
-
-        .reply-tag {
-            display: block;
-            font-size: 11px;
-            background: rgba(0,0,0,0.2);
-            padding: 4px 8px;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            border-left: 3px solid var(--accent);
-        }
-
-        /* ইনপুট এরিয়া */
-        .footer { padding: 15px; background: #111; border-top: 1px solid #333; }
-        #reply-preview {
-            display: none;
-            justify-content: space-between;
-            padding: 8px;
-            background: #222;
-            font-size: 12px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .input-box { display: flex; gap: 10px; }
+        /* Chat UI */
+        #chat-ui { display: none; width: 100%; max-width: 500px; height: 95vh; background: var(--c); flex-direction: column; border-radius: 15px; overflow: hidden; }
+        #msgs { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #111; }
+        
+        .m { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 14px; line-height: 1.4; position: relative; }
+        .me { align-self: flex-end; background: var(--p); border-bottom-right-radius: 2px; }
+        .frnd { align-self: flex-start; background: #333; border-bottom-left-radius: 2px; }
+        
+        .rep-box { display: block; font-size: 11px; opacity: 0.7; border-left: 2px solid #fff; padding-left: 5px; margin-bottom: 5px; }
+        
+        .input-area { padding: 15px; background: #1a1a1a; border-top: 1px solid #333; }
+        #rep-preview { display:none; background: #222; padding: 5px 10px; font-size: 12px; border-radius: 5px; margin-bottom: 5px; justify-content: space-between; }
     </style>
 </head>
 <body>
 
-    <div id="auth-container">
-        <h2 style="color: var(--accent);">Locked Space</h2>
-        <input type="password" id="passInput" placeholder="Password?">
-        <button onclick="login()">Enter Chat</button>
-        <p id="error" style="color: #ff4757; font-size: 12px; margin-top: 10px;"></p>
+    <div id="login">
+        <h3>🔒 Secret Pass</h3>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="auth()">Login</button>
     </div>
 
-    <div id="chat-container">
-        <div class="header">🔒 Private Room</div>
-        <div id="message-area"></div>
-
-        <div class="footer">
-            <div id="reply-preview">
-                <span id="reply-text"></span>
-                <span onclick="cancelReply()" style="cursor:pointer; color: red;">✕</span>
-            </div>
-            <div class="input-box">
-                <input type="text" id="msgInput" placeholder="Write something..." autocomplete="off">
+    <div id="chat-ui">
+        <div style="padding:15px; background: #222; text-align:center; font-weight:bold;">BFF PRIVATE CHAT</div>
+        <div id="msgs"></div>
+        <div class="input-area">
+            <div id="rep-preview"><span id="rep-txt"></span> <span onclick="cancelRep()" style="color:red; cursor:pointer">✖</span></div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="msgInput" placeholder="Message..." autocomplete="off">
                 <button onclick="send()" style="width: 60px;">➤</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // --- Firebase Configuration (আপনারটা এখানে বসান) ---
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // ১. আপনার Firebase Config এখানে সঠিকভাবে বসান
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+            databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
             projectId: "YOUR_PROJECT",
             storageBucket: "YOUR_PROJECT.appspot.com",
             messagingSenderId: "YOUR_ID",
             appId: "YOUR_APP_ID"
         };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const passKey = "123"; // আপনার পাসওয়ার্ড
 
-        const SECRET_PASSWORD = "123"; // আপনার পাসওয়ার্ড
-        let currentReply = null;
+        let myID = localStorage.getItem('chat_uid') || 'u_' + Math.random().toString(36).substr(2, 5);
+        localStorage.setItem('chat_uid', myID);
 
-        // ইউজারের জন্য একটি ইউনিক আইডি (যাতে নিজের মেসেজ চেনা যায়)
-        let myID = localStorage.getItem('chat_uid');
-        if (!myID) {
-            myID = 'user_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('chat_uid', myID);
-        }
+        let selectedReply = null;
 
         // লগইন ফাংশন
-        function login() {
-            const pass = document.getElementById('passInput').value;
-            if (pass === SECRET_PASSWORD) {
-                document.getElementById('auth-container').style.display = 'none';
-                document.getElementById('chat-container').style.display = 'flex';
-                startChat();
-            } else {
-                document.getElementById('error').innerText = "Access Denied!";
-            }
-        }
+        window.auth = () => {
+            if(document.getElementById('pass').value === passKey) {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('chat-ui').style.display = 'flex';
+                initChat();
+            } else { alert("Wrong Pass!"); }
+        };
 
         // মেসেজ পাঠানো
-        function send() {
-            const input = document.getElementById('msgInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            db.ref('messages').push({
-                sender: myID,
-                message: text,
-                replyTo: currentReply,
+        window.send = () => {
+            const inp = document.getElementById('msgInput');
+            if(!inp.value.trim()) return;
+            
+            push(ref(db, 'chats'), {
+                uid: myID,
+                text: inp.value,
+                reply: selectedReply,
                 time: Date.now()
             });
+            inp.value = "";
+            cancelRep();
+        };
 
-            input.value = "";
-            cancelReply();
-        }
-
-        // মেসেজ রিসিভ করা (পুরানো এবং নতুন সব)
-        function startChat() {
-            const area = document.getElementById('message-area');
-            db.ref('messages').on('child_added', (snap) => {
+        // মেসেজ লোড (Real-time)
+        function initChat() {
+            onChildAdded(ref(db, 'chats'), (snap) => {
                 const data = snap.val();
                 const div = document.createElement('div');
-                const isMine = data.sender === myID;
+                div.className = `m ${data.uid === myID ? 'me' : 'frnd'}`;
                 
-                div.className = `msg ${isMine ? 'mine' : 'friend'}`;
-                
-                let html = "";
-                if (data.replyTo) {
-                    html += `<span class="reply-tag">Replying to: ${data.replyTo.substring(0, 20)}...</span>`;
-                }
-                html += `<span>${data.message}</span>`;
-                
+                let html = data.reply ? `<span class="rep-box">Replying to: ${data.reply}</span>` : "";
+                html += `<span>${data.text}</span>`;
                 div.innerHTML = html;
 
-                // ডাবল ক্লিক করলে রিপ্লাই হবে
+                // ডাবল ক্লিক করলে রিপ্লাই সেট হবে
                 div.ondblclick = () => {
-                    currentReply = data.message;
-                    document.getElementById('reply-preview').style.display = 'flex';
-                    document.getElementById('reply-text').innerText = "Replying: " + data.message;
-                    document.getElementById('msgInput').focus();
+                    selectedReply = data.text;
+                    document.getElementById('rep-preview').style.display = 'flex';
+                    document.getElementById('rep-txt').innerText = "Replying: " + data.text;
                 };
 
-                area.appendChild(div);
-                area.scrollTop = area.scrollHeight;
+                document.getElementById('msgs').appendChild(div);
+                document.getElementById('msgs').scrollTop = document.getElementById('msgs').scrollHeight;
             });
         }
 
-        function cancelReply() {
-            currentReply = null;
-            document.getElementById('reply-preview').style.display = 'none';
-        }
+        window.cancelRep = () => { selectedReply = null; document.getElementById('rep-preview').style.display = 'none'; };
 
-        // Enter key support
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                if (document.getElementById('chat-container').style.display === 'flex') send();
-                else login();
-            }
-        });
+        // Enter key Support
+        document.addEventListener('keypress', (e) => { if(e.key === 'Enter') window.send(); });
     </script>
 </body>
 </html>
